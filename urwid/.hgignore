@@ -1,0 +1,11 @@
+syntax: glob
+
+*.pyc
+*.so
+urwid.egg-info
+.*.sw?
+tmp/
+tags
+
+syntax: regexp
+^build

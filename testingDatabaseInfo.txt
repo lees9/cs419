@@ -1,0 +1,25 @@
+create database test;
+
+use test;
+
+CREATE TABLE IF NOT EXISTS `StarWars` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `FirstName` varchar(255) NOT NULL,
+  `LastName` varchar(255) NOT NULL,
+  `DoB` date DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `fName_lName` (`FirstName`,`LastName`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
+
+
+
+
+INSERT INTO `StarWars` (`ID`, `FirstName`, `LastName`, `DoB`) VALUES
+(1, 'Darth', 'Vader', '1931-01-17'),
+(2, 'Luke', 'Skywalker', '1951-09-25');
+
+
+
+mysql> describe [table name];
+
+mysql> SELECT * FROM [table name];   TO SHOW DATA
