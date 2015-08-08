@@ -1,6 +1,9 @@
 import urwid
 import databaseapi
 
+#urwid.connect_signal(execute, 'execute', on_execute_pressed)
+#urwid.connect_signal(cancel, 'cancel', on_cancel_pressed)
+
 class Querypanel(urwid.WidgetWrap):
     signals = ['execute', 'cancel']
     query_text = urwid.Edit(u"Enter query to execute :")
@@ -8,12 +11,13 @@ class Querypanel(urwid.WidgetWrap):
     execute = urwid.Button(u"Execute Query")
     cancel = urwid.Button(u"Cancel")
     panel = urwid.Columns([urwid.AttrMap(query_text,'weight',4),urwid.AttrMap(execute,'weight',1)])
+
+    def on_cancel_pressed(self, button):
+        self._emit('cancel')
+
     def __init__(self):
         pass
 
-    # def execute_query(self,query):
-    #     pass
-    
     def on_execute_pressed(self, button, conn):
         if not self.execute:
             self.status.set_text("Please enter a query\n")
@@ -28,11 +32,5 @@ class Querypanel(urwid.WidgetWrap):
                         self.status.set_text("Query failed. Please check your MySQL syntax\n")
                 else:
                     self.status.set_text(query_result)
-    
-    def on_cancel_pressed(self, button):
-        pass
-   
-   #Not sure how to implement these here??             
-    #urwid.connect_signal(execute, 'execute', on_execute_pressed)
-    #urwid.connect_signal(cancel, 'cancel', on_cancel_pressed)
-            
+            except:
+                self.status.set_text("Something has gone horribly wrong.")

@@ -1,5 +1,5 @@
 import urwid
-import MySQLdb
+import mysql.connector
 from mysql.connector import errorcode
 
 class LoginPopupLauncher(urwid.PopUpLauncher):
@@ -49,12 +49,12 @@ class LoginBox(urwid.WidgetWrap):
             self.status.set_text("You must use a valid username, password, and database name.")
         else:
             try:
-                conn = MySQLdb.connect(host="localhost",user=self.username.get_edit_text(),
+                conn = mysql.connector.connect(host="localhost",user=self.username.get_edit_text(),
                 passwd=self.password.get_edit_text(),db=self.database.get_edit_text(),port=3307)
                 self._emit('success', conn)
                 self.status.set_text("Successfully connected to database {0} as {1}".format(self.database.get_edit_text(),
                     self.username.get_edit_text()))
-            except MySQLdb.Error as err:
+            except mysql.connector.Error as err:
                 self.status.set_text("Unable to connect to database {0}".format(err))
                 self._emit('failure')
 

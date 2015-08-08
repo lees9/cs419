@@ -2,10 +2,9 @@ import urwid
 import databaseapi
 import datascreen
 import loginbox
-import MySQLdb
 from loginbox import LoginPopupLauncher
 
-conn = MySQLdb.Connection('')
+conn = None
 main_screen = None
 popup_launcher = None
 spacer = urwid.Divider()

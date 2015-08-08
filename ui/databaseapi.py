@@ -1,4 +1,4 @@
-from connect419 import mysql, close
+from connect import mysql, close
 import json
 
 #Function that returns the tables in the selected database
