@@ -1,7 +1,8 @@
 import urwid
 import querypanel
 import viewpanel
-
+import databaseapi
+import json
 class Datascreen(urwid.WidgetWrap):
     signals = ['logout']
     left_panel_contents = []
@@ -19,14 +20,15 @@ class Datascreen(urwid.WidgetWrap):
     def __init__(self):
         pass
 
-    def refresh_left_panel(self, text):
-        for line in text:
+    def refresh_left_panel(self, text,conn):
+        objects = json.loads(text)
+        for line in objects:
             button = urwid.Button(line)
-            urwid.connect_signal(button, 'click', self.navigate, line)
+            urwid.connect_signal(button, 'click', self.navigate, user_args=[conn,line])
             self.left_panel.contents.insert(len(self.left_panel.contents)-1,(button,self.left_panel.options()))
 
     def on_logout_pressed(self, button):
         raise urwid.ExitMainLoop()
 
-    def navigate(self, table):
-        pass
+    def navigate(self, caller,conn,line):
+        self.data_panel.display(conn,line)

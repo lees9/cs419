@@ -2,6 +2,7 @@ import urwid
 import databaseapi
 import datascreen
 import loginbox
+import json
 from loginbox import LoginPopupLauncher
 
 conn = None
@@ -24,10 +25,10 @@ def main():
 
 
 def on_login_success(object,conn):
-    data_screen.refresh_left_panel(databaseapi.showTables(conn))
+    data_screen.refresh_left_panel(databaseapi.showTables(conn),conn)
+    tables = json.loads(databaseapi.showTables(conn))
+    data_screen.data_panel.text.set_text(databaseapi.showStructure(conn, tables[0]))
     heading.contents = [(urwid.Filler(data_screen.screen),('given', 60))]
-    tables_list = open('tables.txt', 'w')
-    tables_list.writelines(databaseapi.showTables(conn))
     urwid.connect_signal(data_screen.logout, 'click', data_screen.on_logout_pressed)
     #popup_launcher.open_pop_up()
 
