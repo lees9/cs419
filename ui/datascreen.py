@@ -8,6 +8,7 @@ class Datascreen(urwid.WidgetWrap):
     left_panel_contents = []
     data_panel = viewpanel.Viewpanel()
     query_panel = querypanel.Querypanel()
+    insert = urwid.Button("Insert Table")
     logout = urwid.Button(u"Logout")
     left_panel_contents.append(logout)
     view_panel = urwid.Filler(data_panel.view,valign='top',min_height=40)
