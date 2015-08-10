@@ -41,7 +41,9 @@ def on_login_failure(args):
     pass
 
 def on_create_table(conn,button):
-    urwid.connect_signal(create_screen.next_step, 'click', create_screen.input_columns, user_args=[conn])
+    urwid.connect_signal(create_screen.next_step, 'click', create_screen.input_columns,
+                         user_args=[create_screen.table_name.get_edit_text(),
+                         create_screen.columns.value(),conn])
     urwid.connect_signal(create_screen.abort, 'click', on_abort_pressed,user_args = [conn])
     data_screen.main_panel.original_widget = urwid.WidgetPlaceholder(urwid.Padding(create_screen.top))
 
