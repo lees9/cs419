@@ -10,6 +10,7 @@ class Datascreen(urwid.WidgetWrap):
     query_panel = querypanel.Querypanel()
     insert = urwid.Button("Insert Table")
     logout = urwid.Button(u"Logout")
+    left_panel_contents.append(insert)
     left_panel_contents.append(logout)
     view_panel = urwid.Filler(data_panel.view,valign='top',min_height=40)
     main_footer = urwid.AttrMap(query_panel.panel, 'footer')

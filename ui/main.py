@@ -40,9 +40,13 @@ def on_login_failure(args):
     #TODO: Message for GTFO
     pass
 
-def on_create_table():
-    popup_launcher.original_widget=create_screen
+def on_create_table(button):
+    urwid.connect_signal(create_screen.next_step, 'click', create_screen.input_columns)
+    urwid.connect_signal(create_screen.abort, 'click', on_abort_pressed)
+    data_screen.main_panel.original_widget = urwid.WidgetPlaceholder(urwid.Padding(create_screen.top))
 
-
+def on_abort_pressed(button):
+    data_screen.main_panel.original_widget = data_screen.view_panel
+    data_screen.screen.set_focus(0)
 if __name__ == "__main__":
     main()
