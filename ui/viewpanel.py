@@ -1,4 +1,3 @@
-#This is only a placeholder until Matt gets the actual view panel programmed and ready to be integrated.
 import urwid
 import json
 import databaseapi
@@ -7,8 +6,16 @@ class Viewpanel(urwid.WidgetWrap):
     view = urwid.Padding(text,align='center')
     def display(self,conn,line):
         self.text.set_text("")
-        results = json.loads(databaseapi.show_all(conn,line))
+        describe = json.loads(databaseapi.showStructure(conn,line))
+        for col in describe:
+            self.text.set_text(self.text.get_text()[0]+" "+str(col))
+        self.text.set_text(self.text.get_text()[0]+"\n")
+        jstext = databaseapi.show_all(conn,line)
+        results = json.loads(jstext)
         for row in results:
-            self.text.set_text(self.text.get_text()+"\n"+row)
+
+            for col in row:
+                self.text.set_text(self.text.get_text()[0]+" "+str(col))
+            self.text.set_text(self.text.get_text()[0]+"\n")
     def __init__(self):
         pass

@@ -36,5 +36,5 @@ class Datascreen(urwid.WidgetWrap):
     def on_logout_pressed(self, button):
         raise urwid.ExitMainLoop()
 
-    def navigate(self, caller,conn,line):
+    def navigate(self, conn,line,caller):
         self.data_panel.display(conn,line)
