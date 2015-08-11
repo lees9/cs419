@@ -10,12 +10,12 @@ class Datascreen(urwid.WidgetWrap):
     query_panel = querypanel.Querypanel()
     insert = urwid.Button("Insert Table")
     insert_row = urwid.Button("Insert row") #
-    #query_button = urwid.Button("Query") #
+    query_button = urwid.Button("Query") #
     logout = urwid.Button(u"Logout")
     button_divider = urwid.Divider(u'-', bottom=2)
     left_panel_contents.append(insert)
     left_panel_contents.append(insert_row) #
-    #left_panel_contents.append(query_button) #
+    left_panel_contents.append(query_button) #
     left_panel_contents.append(logout)
     left_panel_contents.append(button_divider)
     view_panel = urwid.Filler(data_panel.view,valign='top',min_height=40)
@@ -29,7 +29,7 @@ class Datascreen(urwid.WidgetWrap):
         pass
 
     def refresh_left_panel(self, text,conn):
-        self.left_panel.contents = self.left_panel.contents[:3]
+        self.left_panel.contents = self.left_panel.contents[:4]
         objects = json.loads(text)
         for line in objects:
             button = urwid.Button(line)
