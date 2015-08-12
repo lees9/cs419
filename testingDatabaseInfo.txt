@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS `StarWars` (
 
 
 INSERT INTO `StarWars` (`ID`, `FirstName`, `LastName`, `DoB`) VALUES
-(1, 'Darth', 'Vader', '1931-01-17'),
-(2, 'Luke', 'Skywalker', '1951-09-25');
+('Darth', 'Vader', '1931-01-17'),
+('Luke', 'Skywalker', '1951-09-25');
 
 
 

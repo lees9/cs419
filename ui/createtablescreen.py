@@ -12,6 +12,8 @@ class CreateTableScreen(urwid.WidgetWrap):
     pile = urwid.Pile([table_name, columns, div, next_step, abort])
     create_button = urwid.Button("Create Table")
     top = urwid.Filler(pile, valign='top')
+
+    input_pile = urwid.Pile([div])
     def __init__(self):
         pass
 
@@ -23,25 +25,34 @@ class CreateTableScreen(urwid.WidgetWrap):
 ##    primaryKey = 0                                      #get input for primary key (default to 0)
 ##    default = ['NOT NULL', 'NULL', 'NULL']              #get default values (default to NULL except 0)
 ##    extra = ['AUTO_INCREMENT', '', '']                  #get extra values (default to '')
-    def input_columns(self,tablename,num_cols,conn,button):
+    def input_columns(self,conn,button):
         table_header = urwid.Text(u"Please insert the column and values for the table: " +
                                   self.table_name.get_edit_text())
-        input_pile = urwid.Pile([table_header])
+        self.input_pile.contents.append((table_header,self.input_pile.options()))
         rowPile = urwid.Pile([])
         columns_count = int(self.columns.get_edit_text())
         for i in range(0,columns_count):
-            rowPile = urwid.Pile([(urwid.Edit("Column Name")),(urwid.Edit("Column Type")),(urwid.IntEdit("Length")),
-                                  (urwid.CheckBox("Primary")),(urwid.Edit("Extra"))])
-            input_pile.contents.append((rowPile,input_pile.options()))
-        input_pile.contents.append((self.create_button,input_pile.options()))
-        input_pile.contents.append((self.abort,input_pile.options()))
-        result_view = urwid.Filler(input_pile)
-        urwid.connect_signal(self.create_button,'click',self.insert,user_args=[tablename,conn])
-        self.top.original_widget = urwid.Padding(input_pile,('relative',100),'pack')
-        input_pile.set_focus(1)
+            rowPile = urwid.Pile([(urwid.Edit("Column Name")),(urwid.Edit("Column Type")),(urwid.Edit("Length")),
+                                  (urwid.Edit("Primary")),(urwid.Edit("Extra"))])
+            self.input_pile.contents.append((rowPile,self.input_pile.options()))
+        self.input_pile.contents.append((self.create_button,self.input_pile.options()))
+        self.input_pile.contents.append((self.abort,self.input_pile.options()))
+        result_view = urwid.Filler(self.input_pile)
+        urwid.connect_signal(self.create_button,'click',self.insert,user_args=[self.table_name.get_edit_text(),conn])
+        self.top.original_widget = urwid.Padding(self.input_pile,('relative',100),'pack')
+        self.input_pile.set_focus(2)
 
 
     def insert(self,tablename,conn,button):
+        table_definition = []
+        for i in range(1,len(self.input_pile.contents)):
+            if isinstance(self.input_pile.contents[i][0], urwid.Pile):
+                column_definition = []
+                for j in range(0, len(self.input_pile.contents[i][0].contents)):
+                    if isinstance(self.input_pile.contents[i][0][j],urwid.Edit):
+                        column_definition.append(self.input_pile.contents[i][0][j].get_edit_text())
+                table_definition.append(column_definition)
+        print(table_definition)
 
         #TODO: Implement
         pass
