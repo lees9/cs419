@@ -15,7 +15,7 @@ spacer = urwid.Divider()
 box = loginbox.LoginBox()
 main_screen = urwid.Filler(spacer)
 data_screen = datascreen.Datascreen()
-create_screen = createtablescreen.CreateTableScreen() #
+create_screen = createtablescreen.CreateTableScreen()
 insert_row_screen = Insertbox.Insertbox() #
 query_screen = queryscreen.Queryscreen() #
 popup_launcher = LoginPopupLauncher(main_screen)
@@ -37,8 +37,11 @@ def on_login_success(object,conn):
     data_screen.data_panel.text.set_text(databaseapi.showStructure(conn, tables[0]))
     popup_launcher.original_widget = urwid.WidgetPlaceholder(urwid.Filler(data_screen.screen))
     urwid.connect_signal(data_screen.logout, 'click', data_screen.on_logout_pressed)
-    urwid.connect_signal(data_screen.insert,'click', on_create_table,user_args=[conn]) #
+    urwid.connect_signal(data_screen.insert,'click', on_create_table,user_args=[conn])
     urwid.connect_signal(data_screen.insert_row, 'click', on_insert_row, user_args=[conn]) #
+    urwid.connect_signal(insert_row_screen.back_button, 'click', on_insert_row, user_args=[conn]) #
+    urwid.connect_signal(insert_row_screen._next, 'click', insert_row_screen.next_view, user_args=[conn])#
+    
     urwid.connect_signal(data_screen.query_button, 'click', on_query_pressed, user_args=[conn]) #
     urwid.connect_signal(query_screen.query_button, 'click', query_screen.on_query_pressed, user_args=[conn])#
 
@@ -59,12 +62,17 @@ def on_abort_pressed(conn,button):
     data_screen.screen.set_focus(0)
 
 def on_insert_row(conn, button): #
-    urwid.connect_signal(insert_row_screen.abort, 'click', on_abort_pressed, user_args=[conn]) #
-    data_screen.main_panel.original_widget = urwid.WidgetPlaceholder(urwid.Padding(insert_row_screen.top)) #
+    tables = databaseapi.showTables(conn)
+    nonjsontables = json.loads(tables)
+    to_insert = ""
+    for row in nonjsontables:
+        to_insert = to_insert + row + "\n"
+    insert_row_screen.text.set_text(to_insert)
+    urwid.connect_signal(insert_row_screen.abort, 'click', on_abort_pressed, user_args=[conn])
+    data_screen.main_panel.original_widget = urwid.WidgetPlaceholder(urwid.Padding(insert_row_screen.top))
 
 def on_query_pressed(conn, button): #
-    #user_query = query_screen.query.get_edit_text()
-    urwid.connect_signal(query_screen.abort, 'click', on_abort_pressed, user_args=[conn]) #
-    data_screen.main_panel.original_widget = urwid.WidgetPlaceholder(urwid.Padding(query_screen.top)) #
+    urwid.connect_signal(query_screen.abort, 'click', on_abort_pressed, user_args=[conn])
+    data_screen.main_panel.original_widget = urwid.WidgetPlaceholder(urwid.Padding(query_screen.top))
 if __name__ == "__main__":
     main()

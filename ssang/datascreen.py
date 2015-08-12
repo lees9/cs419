@@ -9,7 +9,7 @@ class Datascreen(urwid.WidgetWrap):
     data_panel = viewpanel.Viewpanel()
     query_panel = querypanel.Querypanel()
     insert = urwid.Button("Insert Table")
-    insert_row = urwid.Button("Insert row") #
+    insert_row = urwid.Button("Insert Row") #
     query_button = urwid.Button("Query") #
     logout = urwid.Button(u"Logout")
     button_divider = urwid.Divider(u'-', bottom=2)
