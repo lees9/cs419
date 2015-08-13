@@ -7,7 +7,7 @@ class Queryscreen(urwid.WidgetWrap):
     div = urwid.Divider()
     query_field = urwid.Edit(u"Enter query:\n")
     query_button = urwid.Button(u"Query")
-    abort = urwid.Button(u"Abort")
+    abort = urwid.Button(u"Return to main")
     status = urwid.Text(u"")
     text = urwid.Text(u"")
     iview = urwid.WidgetPlaceholder(urwid.Divider())
@@ -30,4 +30,4 @@ class Queryscreen(urwid.WidgetWrap):
             for row in nonjsresult:
                 for col in row:
                     self.text.set_text(self.text.get_text()[0]+" "+str(col))
-            self.text.set_text(self.text.get_text()[0]+"\n")
+                self.text.set_text(self.text.get_text()[0]+"\n")

@@ -220,8 +220,20 @@ def queries(conn, query):
             return -1
 
 
-
-
+def delete(conn, table, idNum):
+    if (idNum.isdigit()):
+        idVal = int(idNum)
+    else:
+        return -1
+    
+    query = """DELETE FROM %s WHERE id=%i""" % (table, idVal)
+    try:
+        cur = conn.cursor()
+        cur.execute(query)
+        conn.commit()
+        return 0
+    except:
+        return -1
 
 #just testing these functions to see output. disregard.
 if __name__ == "__main__":
