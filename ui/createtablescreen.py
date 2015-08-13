@@ -32,8 +32,8 @@ class CreateTableScreen(urwid.WidgetWrap):
         rowPile = urwid.Pile([])
         columns_count = int(self.columns.get_edit_text())
         for i in range(0,columns_count):
-            rowPile = urwid.Pile([(urwid.Edit("Column Name")),(urwid.Edit("Column Type")),(urwid.Edit("Length")),
-                                  (urwid.Edit("Primary")),(urwid.Edit("Extra"))])
+            rowPile = urwid.Pile([(urwid.Edit("Column Name")),(urwid.Edit("Column Type")),
+                                  (urwid.Edit("Primary")),(urwid.Edit("Default")),(urwid.Edit("Extra"))])
             self.input_pile.contents.append((rowPile,self.input_pile.options()))
         self.input_pile.contents.append((self.create_button,self.input_pile.options()))
         self.input_pile.contents.append((self.abort,self.input_pile.options()))
@@ -52,7 +52,19 @@ class CreateTableScreen(urwid.WidgetWrap):
                     if isinstance(self.input_pile.contents[i][0][j],urwid.Edit):
                         column_definition.append(self.input_pile.contents[i][0][j].get_edit_text())
                 table_definition.append(column_definition)
-        print(table_definition)
-
-        #TODO: Implement
-        pass
+                
+        colNames = []
+        colTypes = []
+        defaults = []
+        extras = []
+        pk = 0
+        for column in range(0,len(table_definition)):
+            colNames.append(table_definition[column][0])
+            colTypes.append(table_definition[column][1])
+            if table_definition[column][2].lower()=='yes' or table_definition[column][2].lower() == 'true':
+                pk = column
+            defaults.append(table_definition[column][3])
+            extras.append(table_definition[column][4])
+        
+        databaseapi.createTable(conn,colNames,colTypes,len(table_definition),tablename,pk,defaults,extras)
+        self._emit('inserted')        

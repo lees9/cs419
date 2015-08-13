@@ -1,9 +1,6 @@
 import urwid
 import databaseapi
 
-#urwid.connect_signal(execute, 'execute', on_execute_pressed)
-#urwid.connect_signal(cancel, 'cancel', on_cancel_pressed)
-
 class Querypanel(urwid.WidgetWrap):
     signals = ['execute', 'cancel']
     query_text = urwid.Edit(u"Enter query to execute :")
