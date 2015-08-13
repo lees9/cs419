@@ -219,7 +219,8 @@ def queries(conn, query):
         except:
             return -1
 
-
+########################################### newly added. make sure to include
+        #in submission
 def delete(conn, table, idNum):
     if (idNum.isdigit()):
         idVal = int(idNum)
